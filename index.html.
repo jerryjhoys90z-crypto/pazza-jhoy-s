@@ -52,4 +52,5 @@
                 menuDiv.innerHTML += `
                     <div class="menu-item">
                         <h3>${pizza.n}</h3>
+
                         <p style="font-size: 0.8em; color: #777;">${pizza.d}</p>
