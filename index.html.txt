@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Pizzería del Mar - Menú Digital</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; text-align: center; background-color: #f4f4f9; color: #333; margin: 0; padding: 20px; }
+        h1 { color: #e63946; margin-bottom: 5px; }
+        .subtitle { font-style: italic; color: #666; margin-bottom: 30px; }
+        #menu { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; }
+        .menu-item { background: white; border-radius: 15px; padding: 20px; width: 220px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); transition: transform 0.2s; }
+        .menu-item:hover { transform: translateY(-5px); }
+        .menu-item h3 { margin: 10px 0; font-size: 1.2em; color: #1d3557; }
+        .price { font-weight: bold; color: #e63946; font-size: 1.1em; }
+        button { background-color: #e63946; color: white; border: none; padding: 10px 15px; border-radius: 20px; cursor: pointer; font-weight: bold; width: 100%; margin-top: 10px; }
+        button:hover { background-color: #c1121f; }
+        #carrito { margin-top: 40px; padding: 25px; background: white; border-radius: 15px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05); max-width: 500px; margin-left: auto; margin-right: auto; }
+        #lista-pedido { text-align: left; list-style: none; padding: 0; }
+        #lista-pedido li { border-bottom: 1px solid #eee; padding: 8px 0; display: flex; justify-content: space-between; }
+        .total-box { font-size: 1.5em; margin: 20px 0; }
+        .btn-whatsapp { background-color: #25d366; font-size: 1.1em; padding: 15px; }
+        .btn-whatsapp:hover { background-color: #128c7e; }
+    </style>
+</head>
+<body>
+
+    <h1>🍕 Pizzería del Mar</h1>
+    [span_2](start_span)[span_3](start_span)<p class="subtitle">Recetas artesanales inspiradas en los maestros pizzeros[span_2](end_span)[span_3](end_span)</p>
+
+    <div id="menu">
+        <script>
+            const pizzas = [
+                [span_4](start_span){n: "Margherita Clásica", p: 10, d: "Tomate, mozzarella y albahaca fresca[span_4](end_span)"},
+                [span_5](start_span){n: "Pepperoni Supreme", p: 12, d: "El clásico americano con peperoncini[span_5](end_span)"},
+                {n: "Hawaiana Especial", p: 12, d: "Jamón, piña y doble queso"},
+                [span_6](start_span){n: "Marinara", p: 9, d: "Ajo, orégano y aceite de oliva (sin queso)[span_6](end_span)"},
+                {n: "Cuatro Quesos", p: 14, d: "Mezcla artesanal de la casa"},
+                [span_7](start_span){n: "Pizza del Mar", p: 15, d: "Anchoas premium y aceitunas negras[span_7](end_span)"},
+                [span_8](start_span){n: "Vegetariana de Tony", p: 13, d: "Zucchini, berenjena y cebolla[span_8](end_span)"},
+                [span_9](start_span){n: "Champiñones Cremini", p: 13, d: "Hongos frescos y aceite de oliva[span_9](end_span)"},
+                [span_10](start_span){n: "Pizza Prosciutto", p: 15, d: "Jamón serrano y rúcula fresca[span_10](end_span)"},
+                [span_11](start_span){n: "Breakfast Pizza", p: 14, d: "Salchicha y huevo estrellado[span_11](end_span)"},
+                [span_12](start_span){n: "Pollo BBQ", p: 14, d: "Pollo desmechado y salsa BBQ ahumada[span_12](end_span)"},
+                [span_13](start_span){n: "Pizza Blanca", p: 11, d: "Ricotta, ajo y hierbas finas[span_13](end_span)"},
+                [span_14](start_span){n: "Napoletana Picante", p: 13, d: "Salami picante y chile[span_14](end_span)"},
+                [span_15](start_span){n: "Bocconcini Rolls", p: 12, d: "Rollitos de pizza rellenos[span_15](end_span)"},
+                [span_16](start_span){n: "Corazón de Chocolate", p: 10, d: "Postre: Nutella y fresas[span_16](end_span)"}
+            ];
+
+            const menuDiv = document.getElementById('menu');
+            pizzas.forEach(pizza => {
+                menuDiv.innerHTML += `
+                    <div class="menu-item">
+                        <h3>${pizza.n}</h3>
+                        <p style="font-size: 0.8em; color: #777;">${pizza.d}</p>
