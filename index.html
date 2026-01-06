@@ -5,63 +5,59 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pizzería del Mar - Cutervo</title>
     <style>
-        :root { --rojo: #e63946; --fondo: #fdf2e9; }
-        body { font-family: 'Poppins', sans-serif; background: var(--fondo); margin: 0; padding: 15px; text-align: center; color: #333; }
-        h1 { color: var(--rojo); margin: 10px 0; font-size: 2rem; }
-        .loc { font-style: italic; margin-bottom: 20px; color: #666; display: block; }
+        :root { --rojo: #bc2026; --dorado: #f4a261; --fondo: #faf9f6; }
+        body { font-family: 'Helvetica Neue', Arial, sans-serif; background: var(--fondo); margin: 0; padding: 15px; text-align: center; }
+        h1 { color: var(--rojo); font-size: 2.5rem; margin-bottom: 5px; text-transform: uppercase; }
+        .loc { color: #555; font-style: italic; margin-bottom: 30px; display: block; }
         
-        #menu { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; max-width: 1100px; margin: 0 auto; }
-        .card { background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border-bottom: 5px solid var(--rojo); display: flex; flex-direction: column; }
-        .pizza-img { width: 100%; height: 180px; object-fit: cover; background: #eee; }
-        .info { padding: 15px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
-        .info h3 { margin: 0; font-size: 1.3rem; color: #1d3557; }
-        .price { font-size: 1.7rem; font-weight: bold; color: var(--rojo); margin: 10px 0; display: block; }
+        #menu { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; max-width: 1100px; margin: 0 auto; }
+        .card { background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.08); display: flex; flex-direction: column; transition: 0.3s; border: 1px solid #ddd; }
+        .card:hover { transform: translateY(-5px); }
+        .pizza-img { width: 100%; height: 220px; object-fit: cover; border-bottom: 4px solid var(--rojo); }
+        
+        .info { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
+        .info h3 { margin: 0; font-size: 1.4rem; color: #1a1a1a; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+        .price { font-size: 1.8rem; font-weight: bold; color: var(--rojo); margin: 15px 0; display: block; }
         
         .btn-check { 
-            background: #f1f1f1; padding: 12px; border-radius: 10px; display: flex; 
+            background: #2c3e50; color: white; padding: 15px; border-radius: 5px; display: flex; 
             align-items: center; justify-content: center; gap: 10px; font-weight: bold; cursor: pointer;
-            transition: 0.3s; border: 2px solid transparent;
         }
-        input[type="checkbox"] { transform: scale(1.6); accent-color: var(--rojo); }
-        input[type="checkbox"]:checked + span { color: var(--rojo); }
+        input[type="checkbox"] { transform: scale(1.5); accent-color: var(--dorado); }
 
-        .footer-order { position: fixed; bottom: 20px; left: 0; right: 0; display: flex; justify-content: center; z-index: 1000; }
-        .btn-send { 
-            background: #25d366; color: white; border: none; padding: 15px 50px; 
-            border-radius: 50px; font-size: 1.2rem; font-weight: bold; cursor: pointer;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.3); width: 85%; max-width: 350px;
-        }
+        .footer-nav { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(255,255,255,0.95); padding: 15px; box-shadow: 0 -2px 10px rgba(0,0,0,0.1); z-index: 1000; }
+        .btn-send { background: #25d366; color: white; border: none; padding: 15px 60px; border-radius: 5px; font-size: 1.2rem; font-weight: bold; cursor: pointer; width: 90%; max-width: 400px; }
     </style>
 </head>
 <body>
 
     <h1>🍕 Pizzería del Mar</h1>
-    <span class="loc">📍 Cutervo, Cajamarca | Menú Digital</span>
+    <span class="loc">Artesanía en Masa - Cutervo, Cajamarca</span>
 
     <div id="menu"></div>
-    <div style="height: 100px;"></div>
+    <div style="height: 120px;"></div>
 
-    <div class="footer-order">
-        <button onclick="enviarPedido()" class="btn-send">📲 Realizar Pedido</button>
+    <div class="footer-nav">
+        <button onclick="enviarPedido()" class="btn-send">📲 ENVIAR PEDIDO</button>
     </div>
 
     <script>
         const pizzas = [
-            {n: "Margherita Clásica", p: 15, d: "Tradicional: Tomate, mozzarella y albahaca fresca.", i: "https://images.unsplash.com/photo-1574071318508-1cdbad80ad38?w=500"},
-            {n: "Napoletana Picante", p: 32, d: "Salami picante, peperoncino y mozzarella.", i: "https://images.unsplash.com/photo-1593246038654-54950486a43e?w=500"},
-            {n: "Prosciutto e Funghi", p: 25, d: "Jamón inglés premium con champiñones frescos.", i: "https://images.unsplash.com/photo-1534308983496-4fabb1a015ee?w=500"},
-            {n: "Hawaiana Especial", p: 25, d: "Piña caramelizada y jamón seleccionado.", i: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=500"},
-            {n: "Pepperoni Familiar", p: 35, d: "Doble pepperoni con extra queso mozzarella.", i: "https://images.unsplash.com/photo-1628840042765-356cda07504e?w=500"},
-            {n: "Pizza del Mar", p: 40, d: "Especialidad con anchoas y aceitunas negras.", i: "https://images.unsplash.com/photo-1544982503-9f984c14501a?w=500"},
-            {n: "Cuatro Quesos", p: 40, d: "Mozzarella, parmesano, gorgonzola y provolone.", i: "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500"},
-            {n: "Vegetariana Deluxe", p: 28, d: "Mix de vegetales frescos de la temporada.", i: "https://images.unsplash.com/photo-1571407970349-bc81e7e96d47?w=500"},
-            {n: "Pollo BBQ", p: 32, d: "Pollo a la leña con salsa BBQ artesanal.", i: "https://images.unsplash.com/photo-1565299507177-b0ac66763828?w=500"},
-            {n: "Pizza Blanca", p: 22, d: "Base de crema, ajo confitado y especias.", i: "https://images.unsplash.com/photo-1555072956-7758afb20e8f?w=500"},
-            {n: "Boscaiola", p: 35, d: "Salchicha italiana y hongos del bosque.", i: "https://images.unsplash.com/photo-1593504049359-74330189a345?w=500"},
-            {n: "Americana", p: 28, d: "Sencilla y deliciosa: Jamón y mucho queso.", i: "https://images.unsplash.com/photo-1594007654729-407eedc4be65?w=500"},
-            {n: "Rústica", p: 32, d: "Sabor intenso a orégano, ajo y aceite de oliva.", i: "https://images.unsplash.com/photo-1506354666786-959d6d497f1a?w=500"},
-            {n: "Calzone Relleno", p: 30, d: "Pizza cerrada rellena de mozzarella y jamón.", i: "https://images.unsplash.com/photo-1541745537411-b8046dc6d66c?w=500"},
-            {n: "Corazón de Chocolate", p: 20, d: "Nutella caliente con trozos de fresa.", i: "https://images.unsplash.com/photo-1590947132387-155cc02f3212?w=500"}
+            {n: "Margherita Clásica", p: 15, i: "https://images.unsplash.com/photo-1604068549290-dea0e4a305ca?w=500"},
+            {n: "Napoletana Picante", p: 32, i: "https://images.unsplash.com/photo-1593504049359-74330189a345?w=500"},
+            {n: "Prosciutto e Funghi", p: 25, i: "https://images.unsplash.com/photo-1511516412963-801b050c92aa?w=500"},
+            {n: "Hawaiana Premium", p: 25, i: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=500"},
+            {n: "Pepperoni Familiar", p: 35, i: "https://images.unsplash.com/photo-1628840042765-356cda07504e?w=500"},
+            {n: "Pizza del Mar", p: 40, i: "https://images.unsplash.com/photo-1544982503-9f984c14501a?w=500"},
+            {n: "Cuatro Quesos", p: 40, i: "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500"},
+            {n: "Vegetariana", p: 28, i: "https://images.unsplash.com/photo-1571407970349-bc81e7e96d47?w=500"},
+            {n: "Pollo BBQ (Pizza)", p: 32, i: "https://images.unsplash.com/photo-1565299507177-b0ac66763828?w=500"},
+            {n: "Pizza Blanca", p: 22, i: "https://images.unsplash.com/photo-1555072956-7758afb20e8f?w=500"},
+            {n: "Boscaiola", p: 35, i: "https://images.unsplash.com/photo-1458642849426-cfb724f15ef7?w=500"},
+            {n: "Americana", p: 28, i: "https://images.unsplash.com/photo-1594007654729-407eedc4be65?w=500"},
+            {n: "Rústica Italiana", p: 32, i: "https://images.unsplash.com/photo-1506354666786-959d6d497f1a?w=500"},
+            {n: "Calzone Napoli", p: 30, i: "https://images.unsplash.com/photo-1627308595229-7830a5c91f9f?w=500"},
+            {n: "Nutella y Fresa", p: 20, i: "https://images.unsplash.com/photo-1590947132387-155cc02f3212?w=500"}
         ];
 
         const container = document.getElementById('menu');
@@ -70,13 +66,11 @@
                 <div class="card">
                     <img src="${p.i}" class="pizza-img" alt="${p.n}">
                     <div class="info">
-                        <div>
-                            <h3>${p.n}</h3>
-                            <span class="price">S/ ${p.p}.00</span>
-                        </div>
+                        <h3>${p.n}</h3>
+                        <span class="price">S/ ${p.p}.00</span>
                         <label class="btn-check">
                             <input type="checkbox" class="pizza-check" data-name="${p.n}" data-price="${p.p}">
-                            <span>SELECCIONAR</span>
+                            AGREGAR
                         </label>
                     </div>
                 </div>`;
@@ -84,22 +78,19 @@
 
         function enviarPedido() {
             const checks = document.querySelectorAll('.pizza-check:checked');
-            if (checks.length === 0) return alert("Por favor, selecciona al menos una pizza.");
-            
-            let msg = "¡Hola Pizzería del Mar! 🍕 Quiero pedir:\n\n";
+            if (checks.length === 0) return alert("Selecciona una pizza.");
             let total = 0;
+            let lista = "";
             checks.forEach(c => {
-                msg += "• " + c.dataset.name + " (S/ " + c.dataset.price + ")\n";
+                lista += "- " + c.dataset.name + " (S/" + c.dataset.price + ")\n";
                 total += parseInt(c.dataset.price);
             });
-            msg += "\n💰 Total: S/ " + total + ".00\n📍 Cutervo";
-            
-            window.location.href = `https://wa.me/51921021960?text=${encodeURIComponent(msg)}`;
+            const msg = encodeURIComponent("¡Hola! Pedido desde Cutervo:\n\n" + lista + "\nTotal: S/ " + total + ".00");
+            window.location.href = `https://wa.me/51921021960?text=${msg}`;
         }
     </script>
 </body>
 </html>
-  
 
 
 
