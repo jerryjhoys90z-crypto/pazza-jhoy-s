@@ -1,18 +1,21 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pizzería del Mar - Menú Digital</title>
     <style>
         body { font-family: 'Segoe UI', sans-serif; text-align: center; background-color: #f4f4f9; color: #333; margin: 0; padding: 20px; }
         h1 { color: #e63946; margin-bottom: 5px; }
         .subtitle { font-style: italic; color: #666; margin-bottom: 30px; }
         #menu { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; }
-        .menu-item { background: white; border-radius: 15px; padding: 20px; width: 220px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); transition: 0.3s; }
+        .menu-item { background: white; border-radius: 15px; padding: 20px; width: 220px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); transition: 0.3s; position: relative; }
         .menu-item:hover { transform: translateY(-5px); }
         .menu-item h3 { margin: 10px 0; font-size: 1.2em; color: #1d3557; }
-        .btn-whatsapp { background-color: #25d366; color: white; border: none; padding: 10px 15px; border-radius: 20px; cursor: pointer; font-weight: bold; margin-top: 20px; }
+        .btn-whatsapp { background-color: #25d366; color: white; border: none; padding: 15px 30px; border-radius: 30px; cursor: pointer; font-weight: bold; font-size: 1.1em; margin-top: 30px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
         .btn-whatsapp:hover { background-color: #128c7e; }
+        .checkbox-container { margin-top: 10px; }
+        input[type="checkbox"] { transform: scale(1.5); cursor: pointer; }
     </style>
 </head>
 <body>
@@ -22,8 +25,8 @@
 
     <div id="menu"></div>
 
-    <div style="text-align: center; margin-top: 30px;">
-        <button onclick="enviarPedido()" class="btn-whatsapp">Pedir por WhatsApp</button>
+    <div style="text-align: center;">
+        <button onclick="enviarPedido()" class="btn-whatsapp">Enviar pedido por WhatsApp</button>
     </div>
 
     <script>
@@ -47,26 +50,44 @@
 
         const menuDiv = document.getElementById('menu');
 
-  const menuDiv = document.getElementById('menu');
- 
-       const menuDiv = document.getElementById('menu');
-
-        pizzas.forEach(pizza => {
-            menuDiv.innerHTML += '<div class="menu-item">' +
-                '<h3>' + pizza.n + '</h3>' +
-                '<p style="font-size: 0.8em; color: #777;">' + pizza.d + '</p>' +
-                '<p><strong>$' + pizza.p + '</strong></p>' +
-            '</div>';
+        // Generar el menú con checkboxes
+        pizzas.forEach((pizza, index) => {
+            menuDiv.innerHTML += `
+                <div class="menu-item">
+                    <h3>${pizza.n}</h3>
+                    <p style="font-size: 0.8em; color: #777;">${pizza.d}</p>
+                    <p><strong>$${pizza.p}</strong></p>
+                    <div class="checkbox-container">
+                        <label>
+                            <input type="checkbox" class="pizza-checkbox" data-nombre="${pizza.n}"> Seleccionar
+                        </label>
+                    </div>
+                </div>`;
         });
 
         const numeroWhatsApp = "51921021960"; 
 
         function enviarPedido() {
-            var pedido = pizzas.map(function(p) { return p.n; }).join(", ");
-            var mensaje = encodeURIComponent("¡Hola! Me gustaría pedir estas pizzas: " + pedido);
+            // Buscamos solo los checkboxes que están marcados
+            const seleccionados = document.querySelectorAll('.pizza-checkbox:checked');
             
-            window.open('https://wa.me/' + numeroWhatsApp + '?text=' + mensaje, '_blank');
-        }
+            if (seleccionados.length === 0) {
+                alert("Por favor, selecciona al menos una pizza.");
+                return;
+            }
+
+            // Creamos la lista de nombres de pizzas seleccionadas
+            let listaPizzas = [];
+            seleccionados.forEach(cb => {
+                listaPizzas.push(cb.getAttribute('data-nombre'));
+            });
+
+            const pedidoTexto = listaPizzas.join(", ");
+            const mensaje = encodeURIComponent("¡Hola! Me gustaría pedir estas pizzas: " + pedidoTexto);
+            
+            // Abrir WhatsApp
+            window.location.href = 'https://wa.me/' + numeroWhatsApp + '?text=' + mensaje;
+        }  
     </script>
 </body>
 </html>
