@@ -3,54 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pizzería del Mar - Cutervo</title>
+    <title>Pizzería Jhoy's - Cutervo</title>
     <style>
-        :root { --rojo: #bc2026; --oscuro: #1a1a1a; }
-        body { font-family: 'Georgia', serif; background: #faf9f6; margin: 0; padding: 15px; text-align: center; }
-        h1 { color: var(--rojo); font-size: 2rem; margin: 20px 0 5px; text-transform: uppercase; }
-        .loc { color: #555; font-style: italic; margin-bottom: 30px; display: block; font-size: 0.9rem; }
+        :root { --rojo: #bc2026; --dorado: #f4a261; --fondo: #faf9f6; }
+        body { font-family: 'Georgia', serif; background: var(--fondo); margin: 0; padding: 15px; text-align: center; }
         
-        #menu { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; max-width: 1200px; margin: 0 auto; }
-        .card { background: white; border-radius: 4px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border: 1px solid #eee; display: flex; flex-direction: column; }
+        header { padding: 20px 0; border-bottom: 3px double var(--rojo); margin-bottom: 30px; }
+        h1 { color: var(--rojo); font-size: 2.5rem; margin: 0; text-transform: uppercase; letter-spacing: 2px; }
+        .loc { color: #555; font-style: italic; display: block; margin-top: 5px; }
         
-        .pizza-img { width: 100%; height: 380px; object-fit: cover; background: #222; border-bottom: 5px solid var(--rojo); }
+        #menu { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; max-width: 1200px; margin: 0 auto; }
+        .card { background: white; border-radius: 5px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.1); border: 1px solid #ddd; display: flex; flex-direction: column; }
         
-        .info { padding: 20px; background: #fff; }
+        /* Contenedor de imagen: Si no hay foto, se verá un cuadro gris elegante */
+        .pizza-img { width: 100%; height: 400px; object-fit: cover; background: #e0e0e0; border-bottom: 5px solid var(--rojo); display: block; }
+        
+        .info { padding: 20px; flex-grow: 1; }
         .price { font-size: 2.2rem; font-weight: bold; color: var(--rojo); margin-bottom: 15px; display: block; }
         
         .btn-check { 
-            background: var(--oscuro); color: white; padding: 15px; 
+            background: #1a1a1a; color: white; padding: 18px; border-radius: 4px;
             display: flex; align-items: center; justify-content: center; gap: 15px; 
-            font-weight: bold; cursor: pointer; font-size: 1.1rem; border-radius: 4px;
+            font-weight: bold; cursor: pointer; font-size: 1.1rem; transition: 0.3s;
         }
-        input[type="checkbox"] { transform: scale(1.8); accent-color: var(--rojo); }
+        .btn-check:hover { background: var(--rojo); }
+        input[type="checkbox"] { transform: scale(2); accent-color: var(--rojo); cursor: pointer; }
 
-        .footer-nav { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 15px; box-shadow: 0 -5px 15px rgba(0,0,0,0.1); z-index: 1000; }
-        .btn-send { background: #25d366; color: white; border: none; padding: 18px; font-size: 1.3rem; font-weight: bold; cursor: pointer; width: 90%; max-width: 400px; border-radius: 8px; }
+        .footer-nav { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.1); z-index: 1000; }
+        .btn-send { background: #25d366; color: white; border: none; padding: 18px; font-size: 1.4rem; font-weight: bold; cursor: pointer; width: 90%; max-width: 450px; border-radius: 10px; box-shadow: 0 4px 10px rgba(37, 211, 102, 0.3); }
     </style>
 </head>
 <body>
 
-    <h1>🍕 Pizzería del Mar</h1>
-    <span class="loc">Recetas Originales | Cutervo, Cajamarca</span>
+    <header>
+        <h1>🍕 Pizzería Jhoy's</h1>
+        <span class="loc">Artesanía Italiana en Cutervo</span>
+    </header>
 
     <div id="menu"></div>
-    <div style="height: 120px;"></div>
+    <div style="height: 140px;"></div>
 
     <div class="footer-nav">
         <button onclick="enviarPedido()" class="btn-send">📲 PEDIR POR WHATSAPP</button>
     </div>
 
     <script>
-        // LISTA DE 10 PIZZAS - SIN BBQ
-        // Reemplaza 'pizza1.jpg' por el nombre de tus fotos reales
+        // LISTA DE 10 PIZZAS - ORDENADAS POR PRECIO SEGÚN TU PEDIDO
         const pizzas = [
             {n: "Margherita Clásica", p: 15, i: "pizza1.jpg"},
             {n: "Napoletana Picante", p: 32, i: "pizza2.jpg"},
             {n: "Prosciutto e Funghi", p: 25, i: "pizza3.jpg"},
             {n: "Hawaiana Premium", p: 25, i: "pizza4.jpg"},
-            {n: "Pepperoni Familiar", p: 35, i: "pizza5.jpg"},
-            {n: "Pizza del Mar", p: 40, i: "pizza6.jpg"},
+            {n: "Pepperoni Especial", p: 35, i: "pizza5.jpg"},
+            {n: "Pizza del Mar (Especial)", p: 40, i: "pizza6.jpg"},
             {n: "Cuatro Quesos", p: 40, i: "pizza7.jpg"},
             {n: "Vegetariana", p: 28, i: "pizza8.jpg"},
             {n: "Pizza Blanca", p: 22, i: "pizza9.jpg"},
@@ -61,7 +66,12 @@
         pizzas.forEach(p => {
             container.innerHTML += `
                 <div class="card">
-                    <img src="${p.i}" class="pizza-img" alt="${p.n}" onerror="this.src='https://via.placeholder.com/400x500?text=Subir+Foto+de+${p.n}'">
+                    <img src="${p.i}" class="pizza-img" alt="${p.n}" 
+                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div style="display:none; height:400px; background:#f0f0f0; align-items:center; justify-content:center; flex-direction:column; color:#999; border-bottom: 5px solid #ddd;">
+                        <span style="font-size:3rem;">📸</span>
+                        <p>Subir foto de: <b>${p.n}</b></p>
+                    </div>
                     <div class="info">
                         <span class="price">S/ ${p.p}.00</span>
                         <label class="btn-check">
@@ -74,14 +84,16 @@
 
         function enviarPedido() {
             const checks = document.querySelectorAll('.pizza-check:checked');
-            if (checks.length === 0) return alert("Por favor, selecciona una pizza.");
+            if (checks.length === 0) return alert("Por favor, selecciona al menos una pizza.");
+            
             let total = 0;
             let lista = "";
             checks.forEach(c => {
                 lista += "• " + c.dataset.name + " (S/" + c.dataset.price + ")\n";
                 total += parseInt(c.dataset.price);
             });
-            const msg = encodeURIComponent("¡Hola! Pedido de Pizzería del Mar:\n\n" + lista + "\n💰 Total: S/ " + total + ".00");
+            
+            const msg = encodeURIComponent("¡Hola Pizzería Jhoy's! 🍕\nQuiero realizar un pedido:\n\n" + lista + "\n💰 Total: S/ " + total + ".00\n📍 Cutervo");
             window.location.href = `https://wa.me/51921021960?text=${msg}`;
         }
     </script>
