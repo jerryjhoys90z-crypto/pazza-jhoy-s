@@ -3,60 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pizzería Jhoy's - Cutervo</title>
+    <title>Pizzería Jhoy's</title>
     <style>
-        :root { --rojo: #bc2026; --fondo: #faf9f6; }
-        body { font-family: 'Helvetica', sans-serif; background: var(--fondo); margin: 0; padding: 15px; text-align: center; }
-        header { padding: 20px 0; border-bottom: 3px double var(--rojo); margin-bottom: 25px; }
-        h1 { color: var(--rojo); font-size: 2.2rem; margin: 0; text-transform: uppercase; }
+        body { font-family: sans-serif; background: #f4f4f4; margin: 0; padding: 10px; text-align: center; }
+        header { background: #bc2026; color: white; padding: 20px; border-radius: 0 0 20px 20px; margin-bottom: 20px; }
+        h1 { margin: 0; font-size: 1.8rem; }
         
-        #menu { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; max-width: 1100px; margin: 0 auto; }
-        .card { background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.1); display: flex; flex-direction: column; border: 1px solid #ddd; }
+        #menu { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; }
+        .card { background: white; width: 90%; max-width: 350px; border-radius: 15px; overflow: hidden; box-shadow: 0 4px 8px rgba(0,0,0,0.1); border-bottom: 4px solid #bc2026; }
         
-        .pizza-img { width: 100%; height: 300px; object-fit: cover; border-bottom: 4px solid var(--rojo); }
+        .pizza-img { width: 100%; height: 250px; object-fit: cover; display: block; }
         
         .info { padding: 15px; }
-        .price { font-size: 2rem; font-weight: bold; color: var(--rojo); margin-bottom: 10px; display: block; }
-        .pizza-name { font-size: 1.3rem; font-weight: bold; margin-bottom: 15px; color: #333; display: block; }
+        .price { font-size: 1.8rem; font-weight: bold; color: #bc2026; display: block; margin-bottom: 10px; }
+        .name { font-size: 1.2rem; font-weight: bold; color: #333; display: block; margin-bottom: 15px; }
         
         .btn-check { 
-            background: #1a1a1a; color: white; padding: 15px; border-radius: 5px;
+            background: #222; color: white; padding: 12px; border-radius: 8px;
             display: flex; align-items: center; justify-content: center; gap: 10px; 
-            font-weight: bold; cursor: pointer; transition: 0.3s;
+            font-weight: bold; cursor: pointer;
         }
-        input[type="checkbox"] { transform: scale(1.7); accent-color: var(--rojo); }
+        input[type="checkbox"] { transform: scale(1.5); accent-color: #bc2026; }
 
-        .footer { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 15px; box-shadow: 0 -5px 15px rgba(0,0,0,0.1); z-index: 1000; }
-        .btn-send { background: #25d366; color: white; border: none; padding: 15px; font-size: 1.3rem; font-weight: bold; cursor: pointer; width: 90%; max-width: 400px; border-radius: 8px; }
+        .footer { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 15px; box-shadow: 0 -3px 10px rgba(0,0,0,0.1); }
+        .btn-send { background: #25d366; color: white; border: none; padding: 15px; font-size: 1.2rem; font-weight: bold; width: 100%; max-width: 400px; border-radius: 10px; cursor: pointer; }
     </style>
 </head>
 <body>
 
     <header>
         <h1>🍕 Pizzería Jhoy's</h1>
-        <small>Cutervo - Sabor Original</small>
+        <small>Cutervo - Artesanía en Pizza</small>
     </header>
 
     <div id="menu"></div>
-    <div style="height: 120px;"></div>
+    <div style="height: 100px;"></div>
 
     <div class="footer">
         <button onclick="enviarPedido()" class="btn-send">📲 PEDIR POR WHATSAPP</button>
     </div>
 
     <script>
-        // He buscado imágenes reales de los libros italianos que coincidan con tus recetas
+        // Usando imágenes de un servidor de alta disponibilidad
         const pizzas = [
-            {n: "Margherita Clásica", p: 15, i: "https://www.antonio-carluccio.com/wp-content/uploads/2016/11/Pizza-Margherita.jpg"},
-            {n: "Napoletana Picante", p: 32, i: "https://images.unsplash.com/photo-1593504049359-74330189a345?w=600"},
-            {n: "Prosciutto e Funghi", p: 25, i: "https://images.unsplash.com/photo-1511516412963-801b050c92aa?w=600"},
-            {n: "Hawaiana Premium", p: 25, i: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=600"},
-            {n: "Pepperoni Familiar", p: 35, i: "https://images.unsplash.com/photo-1628840042765-356cda07504e?w=600"},
-            {n: "Pizza del Mar", p: 40, i: "https://images.unsplash.com/photo-1544982503-9f984c14501a?w=600"},
-            {n: "Cuatro Quesos", p: 40, i: "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=600"},
-            {n: "Vegetariana", p: 28, i: "https://images.unsplash.com/photo-1571407970349-bc81e7e96d47?w=600"},
-            {n: "Pizza Blanca", p: 22, i: "https://images.unsplash.com/photo-1555072956-7758afb20e8f?w=600"},
-            {n: "Calzone Napoli", p: 30, i: "https://images.unsplash.com/photo-1627308595229-7830a5c91f9f?w=600"}
+            {n: "Margherita Clásica", p: 15, i: "https://images.unsplash.com/photo-1574071318508-1cdbad80ad38?auto=format&fit=crop&w=500&q=80"},
+            {n: "Napoletana Picante", p: 32, i: "https://images.unsplash.com/photo-1593504049359-74330189a345?auto=format&fit=crop&w=500&q=80"},
+            {n: "Prosciutto e Funghi", p: 25, i: "https://images.unsplash.com/photo-1534308983496-4fabb1a015ee?auto=format&fit=crop&w=500&q=80"},
+            {n: "Hawaiana Premium", p: 25, i: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=500&q=80"},
+            {n: "Pepperoni Especial", p: 35, i: "https://images.unsplash.com/photo-1628840042765-356cda07504e?auto=format&fit=crop&w=500&q=80"},
+            {n: "Pizza del Mar", p: 40, i: "https://images.unsplash.com/photo-1544982503-9f984c14501a?auto=format&fit=crop&w=500&q=80"},
+            {n: "Cuatro Quesos", p: 40, i: "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=500&q=80"},
+            {n: "Vegetariana", p: 28, i: "https://images.unsplash.com/photo-1571407970349-bc81e7e96d47?auto=format&fit=crop&w=500&q=80"},
+            {n: "Pizza Blanca", p: 22, i: "https://images.unsplash.com/photo-1555072956-7758afb20e8f?auto=format&fit=crop&w=500&q=80"},
+            {n: "Calzone Tradicional", p: 30, i: "https://images.unsplash.com/photo-1627308595229-7830a5c91f9f?auto=format&fit=crop&w=500&q=80"}
         ];
 
         const container = document.getElementById('menu');
@@ -65,7 +64,7 @@
                 <div class="card">
                     <img src="${p.i}" class="pizza-img" alt="${p.n}">
                     <div class="info">
-                        <span class="pizza-name">${p.n}</span>
+                        <span class="name">${p.n}</span>
                         <span class="price">S/ ${p.p}.00</span>
                         <label class="btn-check">
                             <input type="checkbox" class="pizza-check" data-name="${p.n}" data-price="${p.p}">
@@ -77,15 +76,15 @@
 
         function enviarPedido() {
             const checks = document.querySelectorAll('.pizza-check:checked');
-            if (checks.length === 0) return alert("Por favor, selecciona una pizza.");
+            if (checks.length === 0) return alert("Selecciona tu pizza");
             let total = 0;
-            let lista = "";
+            let texto = "¡Hola Jhoy's! Mi pedido:\n";
             checks.forEach(c => {
-                lista += "• " + c.dataset.name + " (S/" + c.dataset.price + ")\n";
+                texto += "• " + c.dataset.name + " (S/" + c.dataset.price + ")\n";
                 total += parseInt(c.dataset.price);
             });
-            const msg = encodeURIComponent("¡Hola Pizzería Jhoy's! 🍕\nQuiero este pedido:\n\n" + lista + "\nTotal: S/ " + total + ".00");
-            window.location.href = `https://wa.me/51921021960?text=${msg}`;
+            texto += "\nTotal: S/ " + total + ".00";
+            window.location.href = `https://wa.me/51921021960?text=${encodeURIComponent(texto)}`;
         }
     </script>
 </body>
