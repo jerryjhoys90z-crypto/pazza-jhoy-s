@@ -31,9 +31,16 @@
                 <p class="text-xs opacity-90">Total: S/ <span id="cart-total">0.00</span></p>
             </div>
         </div>
-        <button onclick="enviarPedido()" class="bg-white text-green-700 font-black px-6 py-3 rounded-xl shadow-md active:scale-90 transition-transform">
-            PEDIR AHORA
-        </button>
+ <div style="margin-bottom: 10px;">
+    <select id="tipoPedido" style="width: 100%; padding: 5px; border-radius: 5px; color: black; margin-bottom: 5px;">
+        <option value="Mesa">Estoy en una Mesa</option>
+        <option value="Delivery">Es para Delivery</option>
+    </select>
+    <input type="text" id="referencia" placeholder="¿Número de mesa o dirección?" style="width: 100%; padding: 5px; border-radius: 5px; color: black;">
+</div>
+ <button onclick="enviarPedido()" style="width: 100%; background-color: white; color: #15803d; font-weight: 900; padding: 10px; border-radius: 8px; margin-top: 10px; border: none;">
+    PEDIR AHORA
+</button>
     </div>
 
     <script>
@@ -103,36 +110,38 @@
             const barra = document.getElementById('cart-bar');
             if(carrito.length > 0) {
                 barra.classList.remove('hidden');
-                document.getElementById('cart-count').innerText = `${carrito.length} ${carrito.length === 1 ? 'Producto' : 'Productos'}`;
-                const total = carrito.reduce((sum, p) => sum + p.precio, 0);
-                document.getElementById('cart-total').innerText = total.toFixed(2);
-            }
-        }
-
  function enviarPedido() {
     if (carrito.length === 0) {
-        alert("El carrito está vacío. ¡Añade unos platos primero!");
+        alert("El carrito está vacío");
         return;
     }
 
-    let mensaje = "*¡Hola! Nuevo pedido de SABORES LOCALES*%0A";
-    mensaje += "--------------------------%0A";
-    let total = 0;
+    const tipo = document.getElementById("tipoPedido").value;
+    const referencia = document.getElementById("referencia").value;
 
+    if (referencia.trim() === "") {
+        alert("Por favor, ingresa tu mesa o dirección");
+        return;
+    }
+
+    let mensaje = `*¡Hola! Nuevo pedido de SABORES LOCALES*%0A`;
+    mensaje += `*Orden:* ${tipo}%0A`;
+    mensaje += `*Lugar:* ${referencia}%0A`;
+    mensaje += `--------------------------%0A`;
+
+    let total = 0;
     carrito.forEach(item => {
         mensaje += `• ${item.nombre} - S/ ${item.precio.toFixed(2)}%0A`;
         total += item.precio;
     });
 
-    mensaje += "--------------------------%0A";
+    mensaje += `--------------------------%0A`;
     mensaje += `*Total a pagar: S/ ${total.toFixed(2)}*`;
     
-    // Tu número de WhatsApp con el 51 de Perú
     const telefono = "51956218364"; 
-    
     window.open(`https://wa.me/${telefono}?text=${mensaje}`, '_blank');
-}
-        renderizarMenu();
+}    
+         renderizarMenu();
     </script>
 </body>
 </html>
