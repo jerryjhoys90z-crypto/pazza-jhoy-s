@@ -3,96 +3,127 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pizzería Jhoy's</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Menú Digital Profesional</title>
     <style>
-        body { font-family: sans-serif; background: #f4f4f4; margin: 0; padding: 10px; text-align: center; }
-        header { background: #bc2026; color: white; padding: 20px; border-radius: 0 0 20px 20px; margin-bottom: 20px; }
-        h1 { margin: 0; font-size: 1.8rem; }
-        
-        #menu { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; }
-        .card { background: white; width: 90%; max-width: 350px; border-radius: 15px; overflow: hidden; box-shadow: 0 4px 8px rgba(0,0,0,0.1); border-bottom: 4px solid #bc2026; }
-        
-        .pizza-img { width: 100%; height: 250px; object-fit: cover; display: block; }
-        
-        .info { padding: 15px; }
-        .price { font-size: 1.8rem; font-weight: bold; color: #bc2026; display: block; margin-bottom: 10px; }
-        .name { font-size: 1.2rem; font-weight: bold; color: #333; display: block; margin-bottom: 15px; }
-        
-        .btn-check { 
-            background: #222; color: white; padding: 12px; border-radius: 8px;
-            display: flex; align-items: center; justify-content: center; gap: 10px; 
-            font-weight: bold; cursor: pointer;
-        }
-        input[type="checkbox"] { transform: scale(1.5); accent-color: #bc2026; }
-
-        .footer { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 15px; box-shadow: 0 -3px 10px rgba(0,0,0,0.1); }
-        .btn-send { background: #25d366; color: white; border: none; padding: 15px; font-size: 1.2rem; font-weight: bold; width: 100%; max-width: 400px; border-radius: 10px; cursor: pointer; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
     </style>
 </head>
-<body>
+<body class="bg-gray-100 pb-24 font-sans">
 
-    <header>
-        <h1>🍕 Pizzería Jhoy's</h1>
-        <small>Cutervo - Artesanía en Pizza</small>
+    <header class="bg-white p-6 shadow-sm sticky top-0 z-50 border-b-2 border-orange-500">
+        <h1 class="text-2xl font-black text-orange-600 text-center uppercase">SABORES LOCALES</h1>
+        <p class="text-gray-400 text-[10px] text-center uppercase tracking-widest mt-1">Menú Digital & Delivery</p>
     </header>
 
-    <div id="menu"></div>
-    <div style="height: 100px;"></div>
+    <main id="lista-menu" class="p-4 grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+        </main>
 
-    <div class="footer">
-        <button onclick="enviarPedido()" class="btn-send">📲 PEDIR POR WHATSAPP</button>
+    <div id="cart-bar" class="fixed bottom-6 left-4 right-4 bg-green-600 text-white p-4 rounded-2xl shadow-2xl flex justify-between items-center hidden transition-all">
+        <div class="flex items-center gap-3">
+            <div class="bg-green-500 p-2 rounded-xl">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white" viewBox="0 0 16 16">
+                    <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5z"/>
+                </svg>
+            </div>
+            <div>
+                <p id="cart-count" class="font-bold leading-none">0 Productos</p>
+                <p class="text-xs opacity-90">Total: S/ <span id="cart-total">0.00</span></p>
+            </div>
+        </div>
+        <button onclick="enviarPedido()" class="bg-white text-green-700 font-black px-6 py-3 rounded-xl shadow-md active:scale-90 transition-transform">
+            PEDIR AHORA
+        </button>
     </div>
 
     <script>
-        // Usando imágenes de un servidor de alta disponibilidad
-        const pizzas = [
-            {n: "Margherita Clásica", p: 15, i: "https://images.unsplash.com/photo-1574071318508-1cdbad80ad38?auto=format&fit=crop&w=500&q=80"},
-            {n: "Napoletana Picante", p: 32, i: "https://images.unsplash.com/photo-1593504049359-74330189a345?auto=format&fit=crop&w=500&q=80"},
-            {n: "Prosciutto e Funghi", p: 25, i: "https://images.unsplash.com/photo-1534308983496-4fabb1a015ee?auto=format&fit=crop&w=500&q=80"},
-            {n: "Hawaiana Premium", p: 25, i: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=500&q=80"},
-            {n: "Pepperoni Especial", p: 35, i: "https://images.unsplash.com/photo-1628840042765-356cda07504e?auto=format&fit=crop&w=500&q=80"},
-            {n: "Pizza del Mar", p: 40, i: "https://images.unsplash.com/photo-1544982503-9f984c14501a?auto=format&fit=crop&w=500&q=80"},
-            {n: "Cuatro Quesos", p: 40, i: "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=500&q=80"},
-            {n: "Vegetariana", p: 28, i: "https://images.unsplash.com/photo-1571407970349-bc81e7e96d47?auto=format&fit=crop&w=500&q=80"},
-            {n: "Pizza Blanca", p: 22, i: "https://images.unsplash.com/photo-1555072956-7758afb20e8f?auto=format&fit=crop&w=500&q=80"},
-            {n: "Calzone Tradicional", p: 30, i: "https://images.unsplash.com/photo-1627308595229-7830a5c91f9f?auto=format&fit=crop&w=500&q=80"}
+        // --- DATOS ACTUALIZADOS CON TUS NUEVOS NOMBRES ---
+   const platos = [
+            { 
+                id: 1, 
+                nombre: "Lomo Saltado Premium", 
+                precio: 38.00, 
+                img: "foto1.jpg", 
+                desc: "Finos cortes de lomo, cebolla roja y tomate al wok." 
+            },
+            { 
+                id: 2, 
+                nombre: "Ceviche y Chicharrón", 
+                precio: 32.00, 
+                img: "foto2.jpg", 
+                desc: "Dúo marino perfecto: frescura y crocantez." 
+            },
+            { 
+                id: 3, 
+                nombre: "Seco de Carne", 
+                precio: 28.00, 
+                img: "foto3.jpg", 
+                desc: "Carne tierna en salsa de cilantro con frijoles." 
+            },
+            { 
+                id: 4, 
+                nombre: "Cusa Especial", 
+                precio: 15.00, 
+                img: "foto4.jpg", 
+                desc: "Nuestra bebida o postre especial de la casa." 
+            }
         ];
+                let carrito = [];
 
-        const container = document.getElementById('menu');
-        pizzas.forEach(p => {
-            container.innerHTML += `
-                <div class="card">
-                    <img src="${p.i}" class="pizza-img" alt="${p.n}">
-                    <div class="info">
-                        <span class="name">${p.n}</span>
-                        <span class="price">S/ ${p.p}.00</span>
-                        <label class="btn-check">
-                            <input type="checkbox" class="pizza-check" data-name="${p.n}" data-price="${p.p}">
-                            SELECCIONAR
-                        </label>
+        function renderizarMenu() {
+            const contenedor = document.getElementById('lista-menu');
+            contenedor.innerHTML = ""; 
+
+            platos.forEach(plato => {
+                contenedor.innerHTML += `
+                    <div class="bg-white rounded-3xl overflow-hidden shadow-sm border border-gray-200">
+                        <img src="${plato.img}" class="w-full h-56 object-cover" onerror="this.src='https://via.placeholder.com/400?text=Error+en+Imagen'">
+                        <div class="p-5">
+                            <h3 class="font-bold text-gray-800 text-lg leading-tight">${plato.nombre}</h3>
+                            <p class="text-sm text-gray-500 mt-1">${plato.desc}</p>
+                            <div class="flex justify-between items-center mt-5">
+                                <span class="text-xl font-black text-orange-600">S/ ${plato.precio.toFixed(2)}</span>
+                                <button onclick="agregarAlCarrito(${plato.id})" class="bg-orange-500 text-white font-bold px-4 py-2 rounded-xl active:scale-95 shadow-md">
+                                    + Agregar
+                                </button>
+                            </div>
+                        </div>
                     </div>
-                </div>`;
-        });
+                `;
+            });
+        }
+
+        function agregarAlCarrito(id) {
+            const producto = platos.find(p => p.id === id);
+            carrito.push(producto);
+            actualizarInterfaz();
+        }
+
+        function actualizarInterfaz() {
+            const barra = document.getElementById('cart-bar');
+            if(carrito.length > 0) {
+                barra.classList.remove('hidden');
+                document.getElementById('cart-count').innerText = `${carrito.length} ${carrito.length === 1 ? 'Producto' : 'Productos'}`;
+                const total = carrito.reduce((sum, p) => sum + p.precio, 0);
+                document.getElementById('cart-total').innerText = total.toFixed(2);
+            }
+        }
 
         function enviarPedido() {
-            const checks = document.querySelectorAll('.pizza-check:checked');
-            if (checks.length === 0) return alert("Selecciona tu pizza");
-            let total = 0;
-            let texto = "¡Hola Jhoy's! Mi pedido:\n";
-            checks.forEach(c => {
-                texto += "• " + c.dataset.name + " (S/" + c.dataset.price + ")\n";
-                total += parseInt(c.dataset.price);
-            });
-            texto += "\nTotal: S/ " + total + ".00";
-            window.location.href = `https://wa.me/51921021960?text=${encodeURIComponent(texto)}`;
+            let mensaje = "¡Hola! Quisiera pedir lo siguiente:%0A%0A";
+            const resumen = {};
+            carrito.forEach(p => resumen[p.nombre] = (resumen[p.nombre] || 0) + 1);
+            for (const nombre in resumen) {
+                mensaje += `✅ *${resumen[nombre]}x* ${nombre}%0A`;
+            }
+            const totalFinal = carrito.reduce((sum, p) => sum + p.precio, 0);
+            mensaje += `%0A💰 *Total: S/ ${totalFinal.toFixed(2)}*`;
+            
+            const numWhatsApp = "51987654321"; // <--- CAMBIA ESTO
+             window.open(`https://wa.me/${numWhatsApp}?text=${mensaje}`);
         }
+
+        renderizarMenu();
     </script>
 </body>
 </html>
-
-
-
-
-
-
-
