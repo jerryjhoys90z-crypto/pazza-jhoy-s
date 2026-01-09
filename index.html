@@ -111,13 +111,13 @@
             if(carrito.length > 0) {
                 barra.classList.remove('hidden');
  function enviarPedido() {
+    const tipo = document.getElementById("tipoPedido").value;
+    const referencia = document.getElementById("referencia").value;
+
     if (carrito.length === 0) {
         alert("El carrito está vacío");
         return;
     }
-
-    const tipo = document.getElementById("tipoPedido").value;
-    const referencia = document.getElementById("referencia").value;
 
     if (referencia.trim() === "") {
         alert("Por favor, ingresa tu mesa o dirección");
@@ -140,8 +140,10 @@
     
     const telefono = "51956218364"; 
     window.open(`https://wa.me/${telefono}?text=${mensaje}`, '_blank');
-}    
-         renderizarMenu();
-    </script>
+}
+
+// Esta función es la que hace que aparezcan los platos al cargar la página
+renderizarMenu();
+</script>
 </body>
 </html>
