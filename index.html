@@ -62,7 +62,7 @@
             },
             { 
                 id: 4, 
-                nombre: "Cusa Especial", 
+                nombre: "Causa Especial", 
                 precio: 15.00, 
                 img: "foto4.jpg", 
                 desc: "Nuestra bebida o postre especial de la casa." 
@@ -109,20 +109,29 @@
             }
         }
 
-        function enviarPedido() {
-            let mensaje = "¡Hola! Quisiera pedir lo siguiente:%0A%0A";
-            const resumen = {};
-            carrito.forEach(p => resumen[p.nombre] = (resumen[p.nombre] || 0) + 1);
-            for (const nombre in resumen) {
-                mensaje += `✅ *${resumen[nombre]}x* ${nombre}%0A`;
-            }
-            const totalFinal = carrito.reduce((sum, p) => sum + p.precio, 0);
-            mensaje += `%0A💰 *Total: S/ ${totalFinal.toFixed(2)}*`;
-            
-            const numWhatsApp = "51987654321"; // <--- CAMBIA ESTO
-             window.open(`https://wa.me/${numWhatsApp}?text=${mensaje}`);
-        }
+ function enviarPedido() {
+    if (carrito.length === 0) {
+        alert("El carrito está vacío. ¡Añade unos platos primero!");
+        return;
+    }
 
+    let mensaje = "*¡Hola! Nuevo pedido de SABORES LOCALES*%0A";
+    mensaje += "--------------------------%0A";
+    let total = 0;
+
+    carrito.forEach(item => {
+        mensaje += `• ${item.nombre} - S/ ${item.precio.toFixed(2)}%0A`;
+        total += item.precio;
+    });
+
+    mensaje += "--------------------------%0A";
+    mensaje += `*Total a pagar: S/ ${total.toFixed(2)}*`;
+    
+    // Tu número de WhatsApp con el 51 de Perú
+    const telefono = "51956218364"; 
+    
+    window.open(`https://wa.me/${telefono}?text=${mensaje}`, '_blank');
+}
         renderizarMenu();
     </script>
 </body>
